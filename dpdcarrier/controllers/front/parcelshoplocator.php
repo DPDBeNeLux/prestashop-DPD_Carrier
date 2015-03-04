@@ -45,7 +45,7 @@ class DpdCarrierParcelShopLocatorModuleFrontController extends ModuleFrontContro
 			$parcelshop_cookie[$shop->parcelShopId]->name = $shop->company;
 			$parcelshop_cookie[$shop->parcelShopId]->address = $shop->street . ' ' . $shop->houseNo;
 			$parcelshop_cookie[$shop->parcelShopId]->postcode = $shop->zipCode;
-			$parcelshop_cookie[$shop->parcelShopId]->city = $shop->city;
+			$parcelshop_cookie[$shop->parcelShopId]->city = $shop->street . ' ' . $shop->city;
 			$parcelshop_cookie[$shop->parcelShopId]->id_country = Country::getByIso($shop->isoAlpha2);
 		}
 		

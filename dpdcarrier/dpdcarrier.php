@@ -35,8 +35,8 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.0';
-		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+		$this->version = '0.0.1';
+		$this->ps_versions_compliancy = array('min' => '1.5', 'max' => _PS_VERSION_);
 		$this->author = 'Michiel Van Gucht';
 		
 		$this->tab = 'shipping_logistics';
@@ -121,15 +121,15 @@ class DpdCarrier extends Module
 				
 				$value = strval(Tools::getValue($variable_name));
 				if (!$value || empty($value))
-						$output .= $this->displayError($this->l('Invalid Configuration value ('.$user_readable_name.')'));
-					else
-						Configuration::updateValue($variable_name, $value);
+					$output .= $this->displayError($this->l('Invalid Configuration value ('.$user_readable_name.')'));
+				else
+					Configuration::updateValue($variable_name, $value);
 			}
 			
 			$shipping_methods = new DpdShippingMethods();			
 			foreach($shipping_methods->methods as $method)
 			{
-				$carrier = new Carrier(Configuration::get($this->generateVariableName($method->name . ' carrier id')));
+				$carrier = new Carrier(Configuration::get($this->generateVariableName($method->name . ' id')));
 				$carrier->url = 'https://tracking.dpd.de/parcelstatus?locale=' . $this->context->language->iso_code . '_' . $this->context->country->iso_code .
 					'&delisId=' . Tools::getValue($this->generateVariableName("DelisID")) . 
 					'&matchCode=@';
@@ -153,15 +153,16 @@ class DpdCarrier extends Module
 		
 		foreach ($fields_config as $group_key => $config_group)
 		{
-			$fields_form[$group_key]['form'] = array(
-				'legend'	=> array(
-					'title'	=> $this->l($config_group['name'])
-				),
-				'submit'	=> array(
-					'title'	=> $this->l('Save'),
-					'class'	=> 'button'
-				)
-			);
+			if($group_key == 0 || (substr(_PS_VERSION_, 0, 3) > '1.5'))
+				$fields_form[$group_key]['form'] = array(
+					'legend'	=> array(
+						'title'	=> $this->l($config_group['name'])
+					),
+					'submit'	=> array(
+						'title'	=> $this->l('Save'),
+						'class'	=> 'button'
+					)
+				);
 			foreach ($config_group['elements'] as $element)
 			{
 				$config = $element;
@@ -265,7 +266,7 @@ class DpdCarrier extends Module
 		
 		foreach ($shipping_methods->methods as $method)
 		{
-			$var_name = $this->generateVariableName($method->name . ' carrier id');
+			$var_name = $this->generateVariableName($method->name . ' id');
 			
 			if ((int)($params['id_carrier']) == (int)(Configuration::get($var_name)))
 				Configuration::updateValue($var_name, (int)($params['carrier']->id));
@@ -313,14 +314,14 @@ class DpdCarrier extends Module
 			$order->id_address_delivery = $id_parcelshop_address;
 			$order->save();
 		}
-		elseif( (int)($order->id_carrier) == (int)(Configuration::get('DPDCARRIER_DPD_PARCELSHOP_CARRIER_ID'))
+		elseif( (int)($order->id_carrier) == (int)(Configuration::get('DPDCARRIER_DPD_PARCELSHOP_ID'))
 		 && $delivery_address->alias != 'DPD ParcelShop')
 		{
-			$order->id_carrier = Configuration::get('DPDCARRIER_DPD_HOME_CARRIER_ID');
+			$order->id_carrier = Configuration::get('DPDCARRIER_DPD_HOME_ID');
 			$order->save();
 				
 			Db::getInstance()->update( 'order_carrier' , 
-				array('id_carrier' => Configuration::get('DPDCARRIER_DPD_HOME_CARRIER_ID')), 
+				array('id_carrier' => Configuration::get('DPDCARRIER_DPD_HOME_ID')), 
 				'id_order = ' . $order->id, 0, $null_values);
 		}
 	}
@@ -456,7 +457,7 @@ class DpdCarrier extends Module
 			
 			copy(dirname(__FILE__) . '/views/img/' . strtolower(str_replace(' ', '_', $method->name)) . '.jpg', _PS_SHIP_IMG_DIR_ . '/' . (int) $carrier->id . '.jpg');
 				
-			Configuration::updateValue($this->generateVariableName($method->name . ' carrier id'), (int)($carrier->id));			
+			Configuration::updateValue($this->generateVariableName($method->name . ' id'), (int)($carrier->id));			
 		}
 		return true;
 	}
@@ -467,7 +468,7 @@ class DpdCarrier extends Module
 
 		foreach($shipping_methods->methods as $method)
 		{
-			$carrier_var_name = $this->generateVariableName($method->name . ' carrier id');
+			$carrier_var_name = $this->generateVariableName($method->name . ' id');
 			$carrier = new Carrier(Configuration::get($carrier_var_name));
 			
 			if (!$carrier->delete() || !Configuration::deleteByName($carrier_var_name))
@@ -502,7 +503,7 @@ class DpdCarrier extends Module
 		$country_iso = $country->getIsoById($address->id_country);
 		$this->context->smarty->assign(
 			array(
-			'carrier_id' => Configuration::get('DPDCARRIER_DPD_PARCELSHOP_CARRIER_ID'),
+			'carrier_id' => Configuration::get('DPDCARRIER_DPD_PARCELSHOP_ID'),
 			'module_path' => $this->_path,
 			'dictionary_XML' => $this->_path.'translations/dictionary.xml',
 			'selected_address' => $address->address1 . ', ' . $address->postcode . ' ' . $address->city,
@@ -514,7 +515,7 @@ class DpdCarrier extends Module
 
 	private function checkIfParcelShopSelected($params)
 	{
-		if((int)($this->context->cart->id_carrier) == (int)(Configuration::get('DPDCARRIER_DPD_PARCELSHOP_CARRIER_ID')))
+		if((int)($this->context->cart->id_carrier) == (int)(Configuration::get('DPDCARRIER_DPD_PARCELSHOP_ID')))
 			if(!(isset($this->context->cookie->parcelshop_address_id)))
 			{
 				$this->context->controller->errors[] = $this->l("You have not selected a ParcelShop");
