@@ -10,7 +10,7 @@
 	//window.addEventListener('load', function (){
 		var dpdLocator = new DPD.locator({
 			rootpath: '{/literal}{$module_path}{literal}',
-			ajaxpath: '{/literal}{$base_dir}{literal}index.php?fc=module&module=dpdcarrier&controller=parcelshoplocator',
+			ajaxpath: 'index.php?fc=module&module=dpdcarrier&controller=parcelshoplocator',
 			containerId: 'dpdLocatorContainer',
 			fullscreen: false,
 			width: '100%',
