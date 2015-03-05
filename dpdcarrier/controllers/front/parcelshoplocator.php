@@ -19,15 +19,31 @@ class DpdCarrierParcelShopLocatorModuleFrontController extends ModuleFrontContro
 		if(!($login = unserialize(Configuration::get('DPDCARRIER_LOGIN')))
 			|| !($login->url == $this->url))
 		{
-			$login = new DpdLogin($this->delisID, $this->delisPw, $this->url);
+			try
+			{
+				$login = new DpdLogin($this->delisID, $this->delisPw, $this->url);
+			}
+			catch (Exception $e)
+			{
+				Logger::addLog('Something went wrong logging in to the DPD Web Services (' . $e->getMessage() . ')', 3, null, null, null, true);
+				die;
+			}
 			Configuration::updateValue('DPDCARRIER_LOGIN', serialize($login));
 		}
 		
 		$long = isset($_POST['long']) ? $_POST['long'] : die;
 		$lat = isset($_POST['lat']) ? $_POST['lat'] : die;
 		
-		$parcelshopfinder = new DpdParcelShopFinder($login, $long, $lat);
-		
+		try
+		{
+			$parcelshopfinder = new DpdParcelShopFinder($login, $long, $lat);
+		}
+		catch (Exception $e)
+		{
+			Logger::addLog('Something went wrong looking for ParcelShops (' . $e->getMessage() . ')', 3, null, null, null, true);
+			die;
+		}
+			
 		if($parcelshopfinder->login->refreshed)
 		{
 			Logger::addLog('DPD Login Refreshed');
