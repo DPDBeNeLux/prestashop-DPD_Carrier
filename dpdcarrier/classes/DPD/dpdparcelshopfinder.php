@@ -12,10 +12,10 @@ class DpdParcelShopFinder
 	
 	public $results = array();
 	
-	public function __construct(DpdLogin $login, $long, $lat, $url = 'https://public-ws-stage.dpd.com/services/')	
+	public function __construct(DpdLogin $login, $long, $lat)	
 	{
 		$this->login = $login;
-		$this->url = $this->getWebserviceUrl($url);
+		$this->url = $this->getWebserviceUrl($login->url));
 		
 		$this->search($long, $lat);
 	}
