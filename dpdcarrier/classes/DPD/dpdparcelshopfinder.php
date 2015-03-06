@@ -22,8 +22,10 @@ class DpdParcelShopFinder
 	
 	public function search($long, $lat)
 	{
+		$counter = 0;
 		$stop = false;
-		while(!$stop)
+		while(!$stop
+			&& $counter < 3)
 		{
 			try {
 				$client = new SoapClient($this->url);
@@ -59,18 +61,26 @@ class DpdParcelShopFinder
 							case 'Fault occured':
 								if($soapE->detail && $soapE->detail->authenticationFault)
 								{
-									switch($soapE->detail->authenticationFault->errorCode)
-									{
-										case 'LOGIN_5':
-											$this->login->refresh();
-											continue 4;
-											break;
-										case 'LOGIN_6':
-											$this->login->refresh();
-											continue 4;
-											break;
-										default:
-									}
+									$counter++;
+									if($counter < 3)
+									{	
+										switch($soapE->detail->authenticationFault->errorCode)
+										{
+											case 'LOGIN_5':
+												$this->login->refresh();
+												continue 4;
+												break;
+											case 'LOGIN_6':
+												$this->login->refresh();
+												continue 4;
+												break;
+											default:
+												$newMessage = $soapE->detail->authenticationFault->errorMessage;
+												break;
+										}
+									} 
+									else
+										$newMessage = 'Maximum retries exceeded: ' . $soapE->detail->authenticationFault->errorMessage;
 								}
 								else
 									$newMessage = 'Something went wrong, please use the Exception trace to find out';
