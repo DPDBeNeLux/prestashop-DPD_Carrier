@@ -15,7 +15,7 @@ class DpdParcelShopFinder
 	public function __construct(DpdLogin $login, $long, $lat)	
 	{
 		$this->login = $login;
-		$this->url = $this->getWebserviceUrl($login->url));
+		$this->url = $this->getWebserviceUrl($login->url);
 		
 		$this->search($long, $lat);
 	}
