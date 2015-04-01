@@ -39,7 +39,7 @@ class DpdCarrierParcelShopSelectedModuleFrontController extends ModuleFrontContr
 				{
 					$parcelshop_address = new Address();
 					$parcelshop_address->id_country = $parcelshop->id_country;
-					$parcelshop_address->alias = 'DPD ParcelShop';
+					$parcelshop_address->alias = 'Pickup';
 					$parcelshop_address->company = $parcelshop->name;
 					$parcelshop_address->firstname = $delivery_address->firstname;
 					$parcelshop_address->lastname = $delivery_address->lastname;
@@ -57,7 +57,7 @@ class DpdCarrierParcelShopSelectedModuleFrontController extends ModuleFrontContr
 					$return['result'] .= ' <br>' . $this->l('Located at') . ': ' . $parcelshop->address . ', ' . $parcelshop->postcode . ' ' . $parcelshop->city . '</p>';
 					$return['result'] .= '<a href="#" onclick="javascript:dpdLocator.showLocator();return false;">' . $this->l('Click here to alter your choice') .'</a>';
 				} else {
-					Logger::addLog('Customer, ' . $this->context->customer->firstname . ' ' . $this->context->customer->lastname . ' (' . $this->context->customer->id . '), tried to hack the country restrictions for DPD ParcelShop Delivery.', 2, null, null, null, true);
+					Logger::addLog('Customer, ' . $this->context->customer->firstname . ' ' . $this->context->customer->lastname . ' (' . $this->context->customer->id . '), tried to hack the country restrictions for Pickup Delivery.', 2, null, null, null, true);
 					$return = array(
 						'hasErrors' => true
 						,'errors' => $this->l('Somehow the shop is not in the same country as your delivery address. As this is not allowed this warning has been logged. Please select a shop in the same country as your pre selected delivery address.')

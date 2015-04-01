@@ -90,10 +90,10 @@
 		<de>Schließen</de>
 	</entry>
 	<entry id="12">
-		<en>The ParcelShops in this country are shown as inactive &#60;br&#62; because of your country selection.</en>
-		<nl_NL>De DPD ParcelShops in deze regio zijn niet te selecteren &#60;br&#62; vanwege uw landselectie</nl_NL>
-		<nl_BE>De ParcelShops in dit gebied zijn niet selecteerbaar &#60;br&#62; vanwege uw landselectie.</nl_BE>
-		<fr>Les ParcelShops dans ce pays sont présentés comme inactif &#60;br&#62; en raison de votre sélection de pays.</fr>
-		<de>Die ParcelShops in diesem Land werden als inaktiv &#60;br&#62; angezeigt auf Grund ihrer Landesauswahl.</de>
+		<en>The Pickup parcelshops in this country are shown as inactive &#60;br&#62; because of your country selection.</en>
+		<nl_NL>De Pickup parcelshops in deze regio zijn niet te selecteren &#60;br&#62; vanwege uw landselectie</nl_NL>
+		<nl_BE>De Pickup parcelshops in dit gebied zijn niet selecteerbaar &#60;br&#62; vanwege uw landselectie.</nl_BE>
+		<fr>Les Pickup parcelshops dans ce pays sont présentés comme inactif &#60;br&#62; en raison de votre sélection de pays.</fr>
+		<de>Die Pickup paketshops in diesem Land werden als inaktiv &#60;br&#62; angezeigt auf Grund ihrer Landesauswahl.</de>
 	</entry>
 </dictionary>

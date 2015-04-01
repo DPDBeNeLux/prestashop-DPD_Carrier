@@ -35,7 +35,7 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.5';
+		$this->version = '0.1.6';
 		$this->ps_versions_compliancy = array('min' => '1.5', 'max' => _PS_VERSION_);
 		$this->author = 'Michiel Van Gucht';
 		
@@ -314,14 +314,15 @@ class DpdCarrier extends Module
 			$order->id_address_delivery = $id_parcelshop_address;
 			$order->save();
 		}
-		elseif( (int)($order->id_carrier) == (int)(Configuration::get('DPDCARRIER_DPD_PARCELSHOP_ID'))
-		 && $delivery_address->alias != 'DPD ParcelShop')
+		elseif( (int)($order->id_carrier) == (int)(Configuration::get('DPDCARRIER_PICKUP_ID'))
+		 && $delivery_address->alias != 'Pickup')
 		{
-			$order->id_carrier = Configuration::get('DPDCARRIER_DPD_HOME_ID');
+			$id_carrier = Configuration::get('DPDCARRIER_HOME_WITH_PREDICT_ID');
+			$order->id_carrier = $id_carrier;
 			$order->save();
 				
 			Db::getInstance()->update( 'order_carrier' , 
-				array('id_carrier' => Configuration::get('DPDCARRIER_DPD_HOME_ID')), 
+				array('id_carrier' => $id_carrier), 
 				'id_order = ' . $order->id, 0, $null_values);
 		}
 	}

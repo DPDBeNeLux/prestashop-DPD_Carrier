@@ -157,7 +157,7 @@ var DPD = new function(){
 				
 				testResult = xmlhttp.responseText;
 				if(xmlhttp.status == 404 || testResult == "FALSE" || testResult == "") {
-					alert ("Sorry, but something went wrong looking for the DPD Parcelshops. \r\n If this problem persists please contact the sites administrator");
+					alert ("Sorry, but something went wrong looking for the Pickup points. \r\n If this problem persists please contact the sites administrator");
 				} else {
 					// Parse the response to json object.
 					objResult = JSON.parse(testResult);
@@ -189,10 +189,10 @@ var DPD = new function(){
 						// Create marker logo
 						var DPDimage = {
 							url: imageurl,
-							size: new google.maps.Size(100, 100),
+							size: new google.maps.Size(110, 120),
 							origin: new google.maps.Point(0, 0),
 							anchor: new google.maps.Point(17, 34),
-							scaledSize: new google.maps.Size(50, 50)
+							scaledSize: new google.maps.Size(55, 60)
 						};
 						
 						// Create shop location

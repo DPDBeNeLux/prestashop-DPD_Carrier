@@ -17,19 +17,19 @@ class DpdShippingMethods
 		$this->methods = array();
 		
 		$this->methods[0] = new stdClass();
-		$this->methods[0]->name = 'DPD Classic';
+		$this->methods[0]->name = 'Home';
 		$this->methods[0]->type = 'B2B';
-		$this->methods[0]->description = 'Get your parcel delivered at your place of work (no predict notification)';
+		$this->methods[0]->description = 'Get your parcel delivered at your place';
 		
 		$this->methods[1] = new stdClass();
-		$this->methods[1]->name = 'DPD Home';
+		$this->methods[1]->name = 'Home With Predict';
 		$this->methods[1]->type = 'B2C';
-		$this->methods[1]->description = 'Get your parcel delivered at your place';
+		$this->methods[1]->description = 'Get your parcel delivered at your place (with notification of delivery)';
 		
 		$this->methods[2] = new stdClass();
-		$this->methods[2]->name = 'DPD ParcelShop';
+		$this->methods[2]->name = 'Pickup';
 		$this->methods[2]->type = 'PSD';
-		$this->methods[2]->description = 'Get your parcel delivered at a DPD ParcelShop and collect it at your convenience.';
+		$this->methods[2]->description = 'Get your parcel delivered at a Pickup point and collect it at your convenience.';
 		$this->methods[2]->max_width = 100;
 		$this->methods[2]->max_circum = 200;		
 		$this->methods[2]->max_weight = 20;		
