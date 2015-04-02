@@ -504,7 +504,7 @@ class DpdCarrier extends Module
 		$country_iso = $country->getIsoById($address->id_country);
 		$this->context->smarty->assign(
 			array(
-			'carrier_id' => Configuration::get('DPDCARRIER_DPD_PARCELSHOP_ID'),
+			'carrier_id' => Configuration::get('DPDCARRIER_PICKUP_ID'),
 			'module_path' => $this->_path,
 			'dictionary_XML' => $this->_path.'translations/dictionary.xml',
 			'selected_address' => $address->address1 . ', ' . $address->postcode . ' ' . $address->city,
@@ -516,7 +516,7 @@ class DpdCarrier extends Module
 
 	private function checkIfParcelShopSelected($params)
 	{
-		if((int)($this->context->cart->id_carrier) == (int)(Configuration::get('DPDCARRIER_DPD_PARCELSHOP_ID')))
+		if((int)($this->context->cart->id_carrier) == (int)(Configuration::get('DPDCARRIER_PICKUP_ID')))
 			if(!(isset($this->context->cookie->parcelshop_address_id)))
 			{
 				$this->context->controller->errors[] = $this->l("You have not selected a ParcelShop");
