@@ -35,8 +35,7 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.6';
-		$this->ps_versions_compliancy = array('min' => '1.5', 'max' => _PS_VERSION_);
+		$this->version = '0.1.7';
 		$this->author = 'Michiel Van Gucht';
 		
 		$this->tab = 'shipping_logistics';
@@ -58,6 +57,9 @@ class DpdCarrier extends Module
 	
 	public function install()
 	{
+		if (substr(_PS_VERSION_, 0, 3) < '1.5')
+			return false;
+			
 		if (Shop::isFeatureActive())
 			Shop::setContext(Shop::CONTEXT_ALL);
 			
