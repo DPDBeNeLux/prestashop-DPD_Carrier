@@ -61,6 +61,30 @@ class DpdCarrierConfig
 				)
 			)
 		)
+		,array(
+			'name'	=> 'Logging Options'
+			,'elements'	=> array(
+				array(
+					'type' => 'radio'
+					,'name' => 'Time Logging'
+					,'required' => true
+					,'class' => 't'
+					,'default_value' => 1
+					,'values' => array(
+						array(
+							'id' => 'on'
+							,'value' => 1
+							,'label' => 'On'
+						)
+						,array(
+							'id' => 'off'
+							,'value' => 2
+							,'label' => 'Off'
+						)
+					)
+				)
+			)
+		)
 	);
 
 	public function getAllElementsFlat()

@@ -35,7 +35,7 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.7';
+		$this->version = '0.1.8';
 		$this->author = 'Michiel Van Gucht';
 		
 		$this->tab = 'shipping_logistics';
@@ -393,6 +393,9 @@ class DpdCarrier extends Module
 		
 		$default = $shipping_methods->default;
 		
+		if(!isset($shipping_methods->methods))
+			return false;
+		
 		foreach($shipping_methods->methods as $method)
 		{
 			$carrier = new Carrier();
@@ -410,7 +413,8 @@ class DpdCarrier extends Module
 			$carrier->max_weight = (isset($method->max_weight) ? $method->max_weight : $default->max_weight) * $weight_multiplier;
 			$carrier->grade = 9;
 			
-			foreach($method->zones as $zone_name)
+			$zones = isset($method->zones) ? $method->zones : $default->zones;
+			foreach($zones as $zone_name)
 				$carrier->addZone(Zone::getIdByName($zone_name));
 			
 			foreach ($languages as $language) 

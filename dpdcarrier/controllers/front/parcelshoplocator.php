@@ -15,13 +15,15 @@ class DpdCarrierParcelShopLocatorModuleFrontController extends ModuleFrontContro
 
 		$this->url = Configuration::get('DPDCARRIER_LIVE_SERVER') == 1 ? 'https://public-ws.dpd.com/services/' : 'https://public-ws-stage.dpd.com/services/';
 		
+		$this->timeLogging = Configuration::get('DPDCARRIER_TIME_LOGGING') == 1;
+		
 		$login;
 		if(!($login = unserialize(Configuration::get('DPDCARRIER_LOGIN')))
 			|| !($login->url == $this->url))
 		{
 			try
 			{
-				$login = new DpdLogin($this->delisID, $this->delisPw, $this->url);
+				$login = new DpdLogin($this->delisID, $this->delisPw, $this->url, $this->timeLogging);
 			}
 			catch (Exception $e)
 			{
@@ -36,7 +38,8 @@ class DpdCarrierParcelShopLocatorModuleFrontController extends ModuleFrontContro
 		
 		try
 		{
-			$parcelshopfinder = new DpdParcelShopFinder($login, $long, $lat);
+			$parcelshopfinder = new DpdParcelShopFinder($login);
+			$parcelshopfinder->search(array('long' => $long, 'lat' => $lat));
 		}
 		catch (Exception $e)
 		{
