@@ -13,8 +13,6 @@ function enableOpcPayment(){
 }
 
 function dpdChosenShop(shopID) {
-	var shop = dpdLocator.getShopInfo(shopID);
-	
 	var query = $.ajax({
 		type: 'POST'
 		,cache: false
