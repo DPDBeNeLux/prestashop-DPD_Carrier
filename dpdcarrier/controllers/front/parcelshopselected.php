@@ -9,8 +9,10 @@ class DpdCarrierParcelShopSelectedModuleFrontController extends ModuleFrontContr
 	public function init()
 	{	
 		parent::init();
+		$referer_url_parced = parse_url($_SERVER['HTTP_REFERER']);
+		$base_url_parced = parse_url(_PS_BASE_URL_);
 		if(!(isset($_SERVER['HTTP_REFERER'])
-			|| parse_url($_SERVER['HTTP_REFERER'])['host'] == parse_url(_PS_BASE_URL_)['host']))
+			|| $referer_parced_url['host'] == $base_url_parced['host']))
 		{
 			Tools::Redirect(__PS_BASE_URI__);
 			die;
