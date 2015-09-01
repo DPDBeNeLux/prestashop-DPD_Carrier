@@ -35,7 +35,7 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.8';
+		$this->version = '0.1.9';
 		$this->author = 'Michiel Van Gucht';
 		
 		$this->tab = 'shipping_logistics';
@@ -302,26 +302,26 @@ class DpdCarrier extends Module
 	{
 		$order = $params['object'];
 		$delivery_address = new Address($order->id_address_delivery);
-		
-		if(isset($this->context->cookie->parcelshop_address_id))
+		$cookie = new Cookie('parcelshops');
+    
+		if(isset($cookie->parcelshop_address_id))
 		{
-			$id_parcelshop_address = $this->context->cookie->parcelshop_address_id;
-			unset($this->context->cookie->parcelshop_address_id);
-			unset($this->context->cookie->DPD_ParcelShops);
+			$id_parcelshop_address = $cookie->parcelshop_address_id;
+			unset($cookie->parcelshop_address_id);
+			unset($cookie->DPD_ParcelShops);
+			$cookie->__destruct();
 			
-			$cart = new Cart($order->id_cart);
-			$cart->id_address_delivery = $id_parcelshop_address;
-			$cart->save();
-			
-			$order->id_address_delivery = $id_parcelshop_address;
-			$order->save();
+			Db::getInstance()->update( 'orders' , 
+				array('id_address_delivery' => $id_parcelshop_address), 
+				'id_order = ' . $order->id, 0, $null_values);
 		}
 		elseif( (int)($order->id_carrier) == (int)(Configuration::get('DPDCARRIER_PICKUP_ID'))
 		 && $delivery_address->alias != 'Pickup')
 		{
 			$id_carrier = Configuration::get('DPDCARRIER_HOME_WITH_PREDICT_ID');
-			$order->id_carrier = $id_carrier;
-			$order->save();
+			Db::getInstance()->update( 'orders' ,   
+				array('id_carrier' => $id_carrier),   
+				'id_order = ' . $order->id, 0, $null_values);  
 				
 			Db::getInstance()->update( 'order_carrier' , 
 				array('id_carrier' => $id_carrier), 
@@ -522,11 +522,13 @@ class DpdCarrier extends Module
 
 	private function checkIfParcelShopSelected($params)
 	{
-		if((int)($this->context->cart->id_carrier) == (int)(Configuration::get('DPDCARRIER_PICKUP_ID')))
-			if(!(isset($this->context->cookie->parcelshop_address_id)))
+		if((int)($this->context->cart->id_carrier) == (int)(Configuration::get('DPDCARRIER_PICKUP_ID'))) {
+			$cookie = new Cookie('parcelshops');
+			if(!(isset($cookie->parcelshop_address_id)))
 			{
 				$this->context->controller->errors[] = $this->l("You have not selected a ParcelShop");
 				$this->context->controller->init();
 			}
+		}
 	}
 }

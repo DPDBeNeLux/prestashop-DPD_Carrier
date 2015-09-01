@@ -31,8 +31,10 @@ class DpdCarrierParcelShopSelectedModuleFrontController extends ModuleFrontContr
 				,'errors' => $this->l('There was an error while selecting you ParcelShop. If this problem persists please select an other delivery option.')
 			);
 		else
-		{		
-			$parcelshop_cookie = unserialize($this->context->cookie->DPD_ParcelShops);
+		{
+			$cookie = new Cookie('parcelshops');
+			
+			$parcelshop_cookie = unserialize($cookie->DPD_ParcelShops);
 			$delivery_address = new Address($this->context->cart->id_address_delivery);
 			if (isset($parcelshop_cookie[$id_parcelshop]))
 			{
@@ -51,8 +53,8 @@ class DpdCarrierParcelShopSelectedModuleFrontController extends ModuleFrontContr
 					$parcelshop_address->other = $parcelshop->id;
 					$parcelshop_address->add();
 					
-					$this->context->cookie->parcelshop_address_id = $parcelshop_address->id;
-					$this->context->cookie->write();
+					$cookie->parcelshop_address_id = $parcelshop_address->id;
+					$cookie->write();
 					
 					$return = array();
 					$return['result'] = '<p>' . $this->l('You have chosen') . ': <strong>' . $parcelshop->name . '</strong>';

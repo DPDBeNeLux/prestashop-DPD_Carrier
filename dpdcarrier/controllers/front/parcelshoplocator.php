@@ -68,8 +68,9 @@ class DpdCarrierParcelShopLocatorModuleFrontController extends ModuleFrontContro
 			$parcelshop_cookie[$shop->parcelShopId]->id_country = Country::getByIso($shop->isoAlpha2);
 		}
 		
-		$this->context->cookie->DPD_ParcelShops = serialize($parcelshop_cookie);
-		$this->context->cookie->write();
+		$cookie = new Cookie('parcelshops');
+		$cookie->DPD_ParcelShops = serialize($parcelshop_cookie);
+		$cookie->write();
 		
 		// TODO: add new search results together with old ones.
 		
