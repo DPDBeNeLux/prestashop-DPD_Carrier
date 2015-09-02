@@ -35,7 +35,7 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.9';
+		$this->version = '0.1.10';
 		$this->author = 'Michiel Van Gucht';
 		
 		$this->tab = 'shipping_logistics';
@@ -295,12 +295,7 @@ class DpdCarrier extends Module
 	
 	public function hookDisplayOrderConfirmation($params)
 	{
-		// Parcelshop details in order confirmation page.
-	}
-	
-	public function hookActionObjectOrderUpdateAfter($params)
-	{
-		$order = $params['object'];
+		$order = $params['objOrder'];
 		$delivery_address = new Address($order->id_address_delivery);
 		$cookie = new Cookie('parcelshops');
     
@@ -327,6 +322,11 @@ class DpdCarrier extends Module
 				array('id_carrier' => $id_carrier), 
 				'id_order = ' . $order->id, 0, $null_values);
 		}
+	}
+	
+	public function hookActionObjectOrderUpdateAfter($params)
+	{
+    
 	}
 	
 	/*********************
