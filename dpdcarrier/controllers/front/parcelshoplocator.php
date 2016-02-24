@@ -13,7 +13,7 @@ class DpdCarrierParcelShopLocatorModuleFrontController extends ModuleFrontContro
 		$this->delisID = Configuration::get('DPDCARRIER_DELISID');
 		$this->delisPw = Configuration::get('DPDCARRIER_PASSWORD');
 
-		$this->url = Configuration::get('DPDCARRIER_LIVE_SERVER') == 1 ? 'https://public-ws.dpd.com/services/' : 'https://public-ws-stage.dpd.com/services/';
+		$this->url = Configuration::get('DPDCARRIER_LIVE_SERVER') == 1 ? 'https://public-dis.dpd.nl/Services/' : 'https://public-dis-stage.dpd.nl/Services/';
 		
 		$this->timeLogging = Configuration::get('DPDCARRIER_TIME_LOGGING') == 1;
 		
