@@ -35,7 +35,7 @@ class DpdCarrier extends Module
 		$this->config = new DpdCarrierConfig();
 		
 		$this->name = 'dpdcarrier';
-		$this->version = '0.1.10';
+		$this->version = '0.2.0';
 		$this->author = 'Michiel Van Gucht';
 		
 		$this->tab = 'shipping_logistics';
