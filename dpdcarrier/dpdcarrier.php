@@ -340,7 +340,7 @@ class DpdCarrier extends Module
 	private function initCarriers()
 	{
 		$weight_multiplier;
-		switch(_PS_WEIGHT_UNIT_)
+		switch(Configuration::get('PS_WEIGHT_UNIT'))
 		{
 			case 'mg':
 				$weight_multiplier = 1000000;
@@ -363,7 +363,7 @@ class DpdCarrier extends Module
 		}
 		
 		$dimension_multiplier;
-		switch(_PS_DIMENSION_UNIT_)
+		switch(Configuration::get('PS_DIMENSION_UNIT'))
 		{
 			case 'mm':
 				$dimension_multiplier = 10;

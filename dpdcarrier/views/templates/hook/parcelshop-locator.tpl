@@ -30,13 +30,13 @@
 				if(this.value == '{/literal}{$carrier_id}{literal},'){
 					// If the parcelshop option is selected on load
 					if(this.checked){
-						dpdLocator.showLocator('{/literal}{$selected_address}{literal}');
+						dpdLocator.showLocator('{/literal}{$selected_address|escape:quotes}{literal}');
 						disableOpcPayment();
 						}
 					this.onchange = function(){
 						disableOpcPayment();
 						$('#chosenShop').html('');
-						dpdLocator.showLocator('{/literal}{$selected_address}{literal}');
+						dpdLocator.showLocator('{/literal}{$selected_address|escape:quotes}{literal}');
 						return false;
 					}
 				} else {
